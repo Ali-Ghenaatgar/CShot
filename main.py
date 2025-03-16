@@ -2,11 +2,12 @@ import pygame
 import random
 
 class Player():
-    def __init__(self, x, y, image, score):
+    def __init__(self, x, y, score,bullets,circles):
         self.x = x
         self.y = y
-        self.image = image
         self.score = score
+        self.bullets = bullets
+        self.circles = circles
 
 class Target():
     def __init__(self, x, y, image):
@@ -22,7 +23,7 @@ pygame.init()
 screen = pygame.display.set_mode((800, 600))
 pygame.display.set_caption('CShot')
 
-font = pygame.font.Font(None, 36)
+font = pygame.font.Font(None, 20)
 
 image1 = pygame.image.load('arrow.png')
 image1 = pygame.transform.scale(image1, (25, 25))
@@ -30,15 +31,15 @@ image1 = pygame.transform.scale(image1, (25, 25))
 target_image = pygame.image.load('target.png')
 target_image = pygame.transform.scale(target_image, (50, 50))
 
-player1 = Player(random.randint(0, 775), random.randint(0, 575), image1, score=0)
-player2 = Player(random.randint(0, 775), random.randint(0, 575), image1, score=0)
+player1 = Player(random.randint(0, 775), random.randint(0, 575), score=0,bullets=10,circles=[])
+player2 = Player(random.randint(0, 775), random.randint(0, 575), score=0,bullets=10,circles=[])
+
+def player(player):
+    screen.blit(screen,(player.x, player.y))
 
 target1 = Target(random.randint(0, 750), random.randint(0, 550), target_image)
 target2 = Target(random.randint(0, 750), random.randint(0, 550), target_image)
 target3 = Target(random.randint(0, 750), random.randint(0, 550), target_image)
-
-def player(image, x, y):
-    screen.blit(image, (x, y))
 
 xchange1, ychange1 = 0, 0
 xchange2, ychange2 = 0, 0
@@ -46,6 +47,8 @@ xchange2, ychange2 = 0, 0
 running = True
 while running:
     screen.fill((255, 255, 255))
+    player(player1)
+    player(player2)
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
@@ -69,22 +72,28 @@ while running:
                 xchange2 = 0.1
             
             if event.key == pygame.K_TAB:
-                for target in [target1, target2, target3]:
-                    if target.x < player1.x < target.x + 50 and target.y < player1.y < target.y + 50:
-                        pygame.mixer.music.load('vay-hossein.wav')
-                        pygame.mixer.music.play()
-                        player1.score += 1
-                        target.x = random.randint(0, 750)
-                        target.y = random.randint(0, 550)
+                if player1.bullets > 0:
+                    player1.bullets -= 1
+                    player1.circles.append((player1.x, player1.y))
+                    for target in [target1, target2, target3]:
+                        if target.x < player1.x < target.x + 50 and target.y < player1.y < target.y + 50:
+                            pygame.mixer.music.load('vay-hossein.wav')
+                            pygame.mixer.music.play()
+                            player1.score += 1
+                            target.x = random.randint(0, 750)
+                            target.y = random.randint(0, 550)
 
             if event.key == pygame.K_RETURN:
-                for target in [target1, target2, target3]:
-                    if target.x < player2.x < target.x + 50 and target.y < player2.y < target.y + 50:
-                        player2.score += 1
-                        pygame.mixer.music.load('vay-hossein.wav')
-                        pygame.mixer.music.play()
-                        target.x = random.randint(0, 750)
-                        target.y = random.randint(0, 550)
+                if player2.bullets > 0:
+                    player2.bullets -= 1
+                    player2.circles.append((player2.x, player2.y))
+                    for target in [target1, target2, target3]:
+                        if target.x < player2.x < target.x + 50 and target.y < player2.y < target.y + 50:
+                            player2.score += 1
+                            pygame.mixer.music.load('vay-hossein.wav')
+                            pygame.mixer.music.play()
+                            target.x = random.randint(0, 750)
+                            target.y = random.randint(0, 550)
 
         if event.type == pygame.KEYUP:
             if event.key in [pygame.K_a, pygame.K_d]:
@@ -103,15 +112,20 @@ while running:
 
     for target_obj in [target1, target2, target3]:
         target_obj.render(screen)
-
-    player(player1.image, player1.x, player1.y)
-    player(player2.image, player2.x, player2.y)
+    for circle in player1.circles:
+        pygame.draw.circle(screen, (255, 0, 0), circle, 2)
+    for circle in player2.circles:
+        pygame.draw.circle(screen, (0, 0, 255), circle, 2)
 
     score_text1 = font.render(f"Player 1: {player1.score}", True, (0, 0, 0))
     score_text2 = font.render(f"Player 2: {player2.score}", True, (0, 0, 0))
+    remaining_bullets1 = font.render(f"Player 1 Bullets: {player1.bullets}", True, (0, 0, 0)) if player1.bullets > 0 else font.render(f"Player 1 Bullets: {player1.bullets}", True, (255, 0, 0))
+    remaining_bullets2 = font.render(f"Player 2 Bullets: {player2.bullets}", True, (0, 0, 0)) if player2.bullets > 0 else font.render(f"Player 2 Bullets: {player2.bullets}", True, (255, 0, 0))
 
     screen.blit(score_text1, (10, 10))
-    screen.blit(score_text2, (10, 40))
+    screen.blit(score_text2, (10, 30))
+    screen.blit(remaining_bullets1, (10, 50))
+    screen.blit(remaining_bullets2, (10, 70))
 
     pygame.display.update()
 
