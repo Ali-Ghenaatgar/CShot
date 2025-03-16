@@ -1,5 +1,6 @@
 import pygame
 import random
+import time 
 
 class Player():
     def __init__(self, x, y, image, score):
@@ -36,6 +37,12 @@ player2 = Player(random.randint(0, 775), random.randint(0, 575), image1, score=0
 target1 = Target(random.randint(0, 750), random.randint(0, 550), target_image)
 target2 = Target(random.randint(0, 750), random.randint(0, 550), target_image)
 target3 = Target(random.randint(0, 750), random.randint(0, 550), target_image)
+
+timer_img = pygame.image.load("timer 64.png")
+timer_X = (random.randint(0, 750))
+timer_Y = (random.randint(0, 550))
+def timer(image, x, y):
+    screen.blit(image, (x, y))
 
 def player(image, x, y):
     screen.blit(image, (x, y))
@@ -106,6 +113,7 @@ while running:
 
     player(player1.image, player1.x, player1.y)
     player(player2.image, player2.x, player2.y)
+    timer(timer_img, timer_X, timer_Y)
 
     score_text1 = font.render(f"Player 1: {player1.score}", True, (0, 0, 0))
     score_text2 = font.render(f"Player 2: {player2.score}", True, (0, 0, 0))
