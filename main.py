@@ -74,6 +74,8 @@ while running:
             if event.key == pygame.K_TAB:
                 if player1.bullets > 0:
                     player1.bullets -= 1
+                    pygame.mixer.music.load('bullet1.wav')
+                    pygame.mixer.music.play()
                     player1.circles.append((player1.x, player1.y))
                     for target in [target1, target2, target3]:
                         if target.x < player1.x < target.x + 50 and target.y < player1.y < target.y + 50:
@@ -86,6 +88,8 @@ while running:
             if event.key == pygame.K_RETURN:
                 if player2.bullets > 0:
                     player2.bullets -= 1
+                    pygame.mixer.music.load("bullet2.wav")
+                    pygame.mixer.music.play()
                     player2.circles.append((player2.x, player2.y))
                     for target in [target1, target2, target3]:
                         if target.x < player2.x < target.x + 50 and target.y < player2.y < target.y + 50:
