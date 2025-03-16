@@ -68,18 +68,28 @@ class ShotgunBullet(Target):
         if self.show:
             screen.blit(self.image, (self.x, self.y))
 class special_target1(Target):
+    def __init__(self, x, y, image):
+        super().__init__(x, y, image)
+        self.show = False
+        self.start_time = 0
+        self.show_duration = 2000
+        self.interval = 5000  
 
+    def update(self):
+        current_time = pygame.time.get_ticks()
+        
+        if not self.show and current_time - self.start_time >= self.interval:
+            self.show = True
+            self.start_time = current_time  
+            self.x = random.randint(0, 750)
+            self.y = random.randint(0, 550)
 
+        if self.show and current_time - self.start_time >= self.show_duration:
+            self.show = False
 
-
-
-
-
-
-
-
-
-
+    def render(self, screen):
+        if self.show:
+            screen.blit(self.image, (self.x, self.y))
 
 pygame.mixer.music.load('background.wav')
 screen = pygame.display.set_mode((800, 600))
