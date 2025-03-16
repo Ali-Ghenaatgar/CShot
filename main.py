@@ -48,6 +48,8 @@ pygame.init()
 
 screen = pygame.display.set_mode((800, 600))
 pygame.display.set_caption('CShot')
+icon = pygame.image.load("shooting-range.png")
+pygame.display.set_icon(icon)
 
 font = pygame.font.Font(None, 20)
 
