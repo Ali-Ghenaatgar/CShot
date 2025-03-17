@@ -143,27 +143,27 @@ while running:
                             if target.x - 10 < player1.x < target.x + 60 and target.y - 10 < player1.y < target.y + 60:
                                 pygame.mixer.music.load('vay-hossein.wav')
                                 pygame.mixer.music.play()
-                                player1.score += 1
+                                player1.score += distance(player1.x, last_shot1[0],player1.y, last_shot1[1])
                                 target.x = random.randint(0, 750)
                                 target.y = random.randint(0, 550)
                         else:
                             if target.x < player1.x < target.x + 50 and target.y < player1.y < target.y + 50:
                                 pygame.mixer.music.load('vay-hossein.wav')
                                 pygame.mixer.music.play()
-                                player1.score += 1
+                                player1.score += distance(player1.x, last_shot1[0],player1.y, last_shot1[1])
                                 target.x = random.randint(0, 750)
                                 target.y = random.randint(0, 550)
                     if player1.shotgun_bullets > 0:
                         if special_target1.x - 10 < player1.x < special_target1.x + 60 and special_target1.y - 10 < player1.y < special_target1.y + 60:
                             player1.shotgun_bullets += 3
                             player1.bullets += 3
-                            player1.score += 1
+                            player1.score += distance(player1.x, last_shot1[0],player1.y, last_shot1[1])
                             pygame.mixer.music.load('reload.mp3')
                             pygame.mixer.music.play()
                             special_target1.show = False
                         if special_target2.x - 10 < player1.x < special_target2.x + 60 and special_target2.y - 10 < player1.y < special_target2.y + 60:
                             player1.bullets += 10
-                            player1.score += 1
+                            player1.score += distance(player1.x, last_shot1[0],player1.y, last_shot1[1])
                             special_target2.show = False
                         if special_target3.x - 10 < player1.x < special_target3.x + 60 and special_target3.y - 10 < player1.y < special_target3.y + 60:
                             player1.score *= 2
@@ -174,20 +174,21 @@ while running:
                         if special_target1.x < player1.x < special_target1.x + 50 and special_target1.y < player1.y < special_target1.y + 50:
                             player1.shotgun_bullets += 3
                             player1.bullets += 3
-                            player1.score += 1
+                            player1.score += distance(player1.x, last_shot1[0],player1.y, last_shot1[1])
                             pygame.mixer.music.load('reload.mp3')
                             pygame.mixer.music.play()
                             special_target1.show = False
                         if special_target2.x < player1.x < special_target2.x + 50 and special_target2.y < player1.y < special_target2.y + 50:
                             player1.bullets += 10
-                            player1.score += 1
+                            player1.score += distance(player1.x, last_shot1[0],player1.y, last_shot1[1])
                             special_target2.show = False
                         if special_target3.x < player1.x < special_target3.x + 50 and special_target3.y < player1.y < special_target3.y + 50:
                             player1.score *= 2
                             pygame.mixer.music.load('2x.mp3')
                             pygame.mixer.music.play()
                             special_target3.show = False
-
+                    last_shot1[0] = player1.x
+                    last_shot1[1] = player1.y
 
             if event.key == pygame.K_RETURN:
                 if player2.bullets > 0:
@@ -205,14 +206,14 @@ while running:
                     for target in [target1, target2, target3]:
                         if player2.shotgun_bullets > 0:
                             if target.x - 10 < player2.x < target.x + 60 and target.y - 10 < player2.y < target.y + 60:
-                                player2.score += 1
+                                player2.score += distance(player2.x, last_shot2[0],player2.y, last_shot2[1])
                                 pygame.mixer.music.load('vay-hossein.wav')
                                 pygame.mixer.music.play()
                                 target.x = random.randint(0, 750)
                                 target.y = random.randint(0, 550)
                         else:
                             if target.x < player2.x < target.x + 50 and target.y < player2.y < target.y + 50:
-                                player2.score += 1
+                                player2.score += distance(player2.x, last_shot2[0],player2.y, last_shot2[1])
                                 pygame.mixer.music.load('vay-hossein.wav')
                                 pygame.mixer.music.play()
                                 target.x = random.randint(0, 750)
@@ -221,13 +222,13 @@ while running:
                         if special_target1.x - 10 < player2.x < special_target1.x + 60 and special_target1.y - 10 < player2.y < special_target1.y + 60:
                             player2.shotgun_bullets += 3
                             player2.bullets += 3
-                            player2.score += 1
+                            player2.score += distance(player2.x, last_shot2[0],player2.y, last_shot2[1])
                             pygame.mixer.music.load('reload.mp3')
                             pygame.mixer.music.play()
                             special_target1.show = False
                         if special_target2.x - 10 < player2.x < special_target2.x + 60 and special_target2.y - 10 < player2.y < special_target2.y + 60:
                             player2.bullets += 10
-                            player2.score += 1
+                            player2.score += distance(player2.x, last_shot2[0],player2.y, last_shot2[1])
                             special_target2.show = False
                         if special_target3.x - 10 < player2.x < special_target3.x + 60 and special_target3.y - 10 < player2.y < special_target3.y + 60:
                             player2.score *= 2
@@ -238,19 +239,21 @@ while running:
                         if special_target1.x < player2.x < special_target1.x + 50 and special_target1.y < player2.y < special_target1.y + 50:
                             player2.shotgun_bullets += 3
                             player2.bullets += 3
-                            player2.score += 1
+                            player2.score += distance(player2.x, last_shot2[0],player2.y, last_shot2[1])
                             pygame.mixer.music.load('reload.mp3')
                             pygame.mixer.music.play()
                             special_target1.show = False
                         if special_target2.x < player2.x < special_target2.x + 50 and special_target2.y < player2.y < special_target2.y + 50:
                             player2.bullets += 10
-                            player2.score += 1
+                            player2.score += distance(player2.x, last_shot2[0],player2.y, last_shot2[1])
                             special_target2.show = False
                         if special_target3.x < player2.x < special_target3.x + 50 and special_target3.y < player2.y < special_target3.y + 50:
                             player2.score *= 2
                             pygame.mixer.music.load('2x.mp3')
                             pygame.mixer.music.play()
                             special_target3.show = False
+                    last_shot2[0] = player2.x
+                    last_shot2[1] = player2.y
 
         if event.type == pygame.KEYUP:
             if event.key in [pygame.K_a, pygame.K_d]:
