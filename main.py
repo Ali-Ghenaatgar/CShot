@@ -86,9 +86,9 @@ xchange2, ychange2 = 0, 0
 
 pygame.init()
 font = pygame.font.Font(None, 20)
-clock = pygame.time.Clock()
-sec = 100
-time_left = font.render(f"Time Left: {sec}", True, (0, 0, 0))
+start_time = pygame.time.get_ticks()
+game_duration = 100000
+
 
 
 running = True
@@ -96,34 +96,30 @@ while running:
     screen.fill((255, 255, 255))
     player(player1)
     player(player2)
-    clock.tick(1)
-    sec -= 1
-    time_left = font.render(f"Time Left: {sec}s", True, (0, 0, 0))
-    screen.blit(time_left, (10, 90))
-    if sec == 0:
-        running = False
+    elapsed_time = pygame.time.get_ticks() - start_time
+    remaining_time = max(0, (game_duration - elapsed_time) // 1000)
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_w:
-                ychange1 = -100
+                ychange1 = -0.2
             if event.key == pygame.K_s:
-                ychange1 = 100
+                ychange1 = 0.2
             if event.key == pygame.K_a:
-                xchange1 = -100
+                xchange1 = -0.2
             if event.key == pygame.K_d:
-                xchange1 = 100
+                xchange1 = 0.2
 
             if event.key == pygame.K_UP:
-                ychange2 = -100
+                ychange2 = -0.2
             if event.key == pygame.K_DOWN:
-                ychange2 = 100
+                ychange2 = 0.2
             if event.key == pygame.K_LEFT:
-                xchange2 = -100
+                xchange2 = -0.2
             if event.key == pygame.K_RIGHT:
-                xchange2 = 100
+                xchange2 = 0.2
             
             if event.key == pygame.K_TAB:
                 if player1.bullets > 0:
@@ -292,11 +288,13 @@ while running:
     score_text2 = font.render(f"Player 2: {player2.score}", True, (0, 0, 0))
     remaining_bullets1 = font.render(f"Player 1 Bullets: {player1.bullets}", True, (0, 0, 0)) if player1.bullets > 0 else font.render(f"Player 1 Bullets: {player1.bullets}", True, (255, 0, 0))
     remaining_bullets2 = font.render(f"Player 2 Bullets: {player2.bullets}", True, (0, 0, 0)) if player2.bullets > 0 else font.render(f"Player 2 Bullets: {player2.bullets}", True, (255, 0, 0))
+    time_left = font.render(f"Time Left: {remaining_time}s", True, (0, 0, 0))
 
     screen.blit(score_text1, (10, 10))
     screen.blit(score_text2, (10, 30))
     screen.blit(remaining_bullets1, (10, 50))
     screen.blit(remaining_bullets2, (10, 70))
+    screen.blit(time_left, (10, 90))
 
     pygame.display.update()
     
