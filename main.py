@@ -44,107 +44,6 @@ class SpecialTarget(Target):
             screen.blit(self.image, (self.x, self.y))
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-class ShotgunBullet(Target):
-    def __init__(self, x, y, image):
-        super().__init__(x, y, image)
-        self.show = False
-        self.start_time = 0
-        self.show_duration = 2000
-        self.interval = 5000  
-
-    def update(self):
-        current_time = pygame.time.get_ticks()
-        
-        if not self.show and current_time - self.start_time >= self.interval:
-            self.show = True
-            self.start_time = current_time  
-            self.x = random.randint(0, 750)
-            self.y = random.randint(0, 550)
-
-        if self.show and current_time - self.start_time >= self.show_duration:
-            self.show = False
-
-    def render(self, screen):
-        if self.show:
-            screen.blit(self.image, (self.x, self.y))
-class special_target1(Target):
-    def __init__(self, x, y, image):
-        super().__init__(x, y, image)
-        self.show = False
-        self.start_time = 0
-        self.show_duration = 2000
-        self.interval = 5000  
-
-    def update(self):
-        current_time = pygame.time.get_ticks()
-        
-        if not self.show and current_time - self.start_time >= self.interval:
-            self.show = True
-            self.start_time = current_time  
-            self.x = random.randint(0, 750)
-            self.y = random.randint(0, 550)
-
-        if self.show and current_time - self.start_time >= self.show_duration:
-            self.show = False
-
-    def render(self, screen):
-        if self.show:
-            screen.blit(self.image, (self.x, self.y))
-
-
-pygame.init()
-pygame.font.init()
 screen = pygame.display.set_mode((800, 600))
 pygame.display.set_caption('CShot')
 icon = pygame.image.load("shooting-range.png")
@@ -175,13 +74,6 @@ special_target3 = SpecialTarget(random.randint(0, 750), random.randint(0, 550), 
 
 xchange1, ychange1 = 0, 0
 xchange2, ychange2 = 0, 0
-
-timer_img = pygame.image.load("timer 64.png")
-timer_X = (random.randint(0, 750))
-timer_Y = (random.randint(0, 550))
-def timer_icon(image, x, y):
-    screen.blit(image, (x, y))
-clock = pygame.time.Clock()
 
 pygame.init()
 font = pygame.font.Font(None, 20)
@@ -358,6 +250,7 @@ while running:
 
     for target_obj in [target1, target2, target3, special_target1, special_target2, special_target3]:
         target_obj.render(screen)
+
     for circle in player1.circles:
         if type(circle) == tuple:
             pygame.draw.circle(screen, (255, 0, 0), circle, 2)
@@ -368,48 +261,19 @@ while running:
         if type(circle) == tuple:
             pygame.draw.circle(screen, (0, 0, 255), circle, 2)
         else:
-            pygame.draw.circle(screen, (0, 0, 255), circle[0], 25)
             for j in circle:
                 pygame.draw.circle(screen, (0, 0, 255), j, 3)
-            
-            
 
-
-
-
-
-
-
-
-
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-
-    sec = 100
-    clock.tick(1)
-    sec -= 1
-    time_remaining = font.render(f"Time Remaining: {sec}", True, (0, 0, 0))
 
     score_text1 = font.render(f"Player 1: {player1.score}", True, (0, 0, 0))
     score_text2 = font.render(f"Player 2: {player2.score}", True, (0, 0, 0))
     remaining_bullets1 = font.render(f"Player 1 Bullets: {player1.bullets}", True, (0, 0, 0)) if player1.bullets > 0 else font.render(f"Player 1 Bullets: {player1.bullets}", True, (255, 0, 0))
     remaining_bullets2 = font.render(f"Player 2 Bullets: {player2.bullets}", True, (0, 0, 0)) if player2.bullets > 0 else font.render(f"Player 2 Bullets: {player2.bullets}", True, (255, 0, 0))
+
     screen.blit(score_text1, (10, 10))
     screen.blit(score_text2, (10, 30))
     screen.blit(remaining_bullets1, (10, 50))
     screen.blit(remaining_bullets2, (10, 70))
-    screen.blit(time_remaining, (10, 90))
-    timer_icon(timer_img, timer_X, timer_Y)
-    
 
     pygame.display.update()
     
