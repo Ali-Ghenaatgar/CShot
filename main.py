@@ -43,6 +43,14 @@ class SpecialTarget(Target):
         if self.show:
             screen.blit(self.image, (self.x, self.y))
 
+last_shot1 = [0, 0]
+last_shot2 = [0, 0]
+
+def distance(x1, x2, y1, y2):
+    distance = (((x2-x1)**2)+((y2-y1)**2)**0.5)
+    score_plus = distance//100
+    score_plus += 1
+    return score_plus
 
 screen = pygame.display.set_mode((800, 600))
 pygame.display.set_caption('CShot')
@@ -77,12 +85,23 @@ xchange2, ychange2 = 0, 0
 
 pygame.init()
 font = pygame.font.Font(None, 20)
+clock = pygame.time.Clock()
+sec = 100
+time_left = font.render(f"Time Left: {sec}", True, (0, 0, 0))
+
 
 running = True
 while running:
     screen.fill((255, 255, 255))
     player(player1)
     player(player2)
+    clock.tick(1)
+    sec -= 1
+    time_left = font.render(f"Time Left: {sec}", True, (0, 0, 0))
+    screen.blit(time_left, (10, 90))
+    if sec == 0:
+        running = False
+
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
