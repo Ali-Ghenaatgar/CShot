@@ -1,5 +1,6 @@
 import pygame
 import random
+import math
 
 class Player():
     def __init__(self, x, y,circles, score=0,bullets=10,shotgun_bullets=0):
@@ -47,8 +48,8 @@ last_shot1 = [0, 0]
 last_shot2 = [0, 0]
 
 def distance(x1, x2, y1, y2):
-    distance = (((x2-x1)**2)+((y2-y1)**2)**0.5)
-    score_plus = distance//100
+    distance = math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2)
+    score_plus = int(distance/100)
     score_plus += 1
     return score_plus
 
@@ -97,7 +98,7 @@ while running:
     player(player2)
     clock.tick(1)
     sec -= 1
-    time_left = font.render(f"Time Left: {sec}", True, (0, 0, 0))
+    time_left = font.render(f"Time Left: {sec}s", True, (0, 0, 0))
     screen.blit(time_left, (10, 90))
     if sec == 0:
         running = False
@@ -107,22 +108,22 @@ while running:
             running = False
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_w:
-                ychange1 = -0.2
+                ychange1 = -100
             if event.key == pygame.K_s:
-                ychange1 = 0.2
+                ychange1 = 100
             if event.key == pygame.K_a:
-                xchange1 = -0.2
+                xchange1 = -100
             if event.key == pygame.K_d:
-                xchange1 = 0.2
+                xchange1 = 100
 
             if event.key == pygame.K_UP:
-                ychange2 = -0.2
+                ychange2 = -100
             if event.key == pygame.K_DOWN:
-                ychange2 = 0.2
+                ychange2 = 100
             if event.key == pygame.K_LEFT:
-                xchange2 = -0.2
+                xchange2 = -100
             if event.key == pygame.K_RIGHT:
-                xchange2 = 0.2
+                xchange2 = 100
             
             if event.key == pygame.K_TAB:
                 if player1.bullets > 0:
