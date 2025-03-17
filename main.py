@@ -368,6 +368,9 @@ while running:
         if type(circle) == tuple:
             pygame.draw.circle(screen, (0, 0, 255), circle, 2)
         else:
+            pygame.draw.circle(screen, (0, 0, 255), circle[0], 25)
+            for j in circle:
+                pygame.draw.circle(screen, (0, 0, 255), j, 3)
             
             
 
@@ -390,12 +393,11 @@ while running:
     
     
     
-    
-    
-    
-    
-    
-    
+
+    sec = 100
+    clock.tick(1)
+    sec -= 1
+    time_remaining = font.render(f"Time Remaining: {sec}", True, (0, 0, 0))
 
     score_text1 = font.render(f"Player 1: {player1.score}", True, (0, 0, 0))
     score_text2 = font.render(f"Player 2: {player2.score}", True, (0, 0, 0))
