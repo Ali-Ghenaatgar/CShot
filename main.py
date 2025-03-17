@@ -90,8 +90,8 @@ class special_target1(Target):
     def render(self, screen):
         if self.show:
             screen.blit(self.image, (self.x, self.y))
-
-pygame.mixer.music.load('background.wav')
+pygame.init()
+pygame.font.init()
 screen = pygame.display.set_mode((800, 600))
 pygame.display.set_caption('CShot')
 icon = pygame.image.load("shooting-range.png")
@@ -117,6 +117,13 @@ special_target1 = ShotgunBullet(random.randint(0, 750), random.randint(0, 550), 
 
 xchange1, ychange1 = 0, 0
 xchange2, ychange2 = 0, 0
+
+timer_img = pygame.image.load("timer 64.png")
+timer_X = (random.randint(0, 750))
+timer_Y = (random.randint(0, 550))
+def timer_icon(image, x, y):
+    screen.blit(image, (x, y))
+clock = pygame.time.Clock()
 
 pygame.init()
 running = True
@@ -244,16 +251,23 @@ while running:
             pygame.draw.circle(screen, (0, 0, 255), circle, 2)
         else:
             pygame.draw.circle(screen, (0, 0, 255), circle[0], 25)
-
+    sec = 100
+    clock.tick(1)
+    sec -= 1
+    time_remaining = font.render(f"Time Remaining: {sec}", True, (0, 0, 0))
+    # window.blit(time_remaining)
+    
     score_text1 = font.render(f"Player 1: {player1.score}", True, (0, 0, 0))
     score_text2 = font.render(f"Player 2: {player2.score}", True, (0, 0, 0))
     remaining_bullets1 = font.render(f"Player 1 Bullets: {player1.bullets}", True, (0, 0, 0)) if player1.bullets > 0 else font.render(f"Player 1 Bullets: {player1.bullets}", True, (255, 0, 0))
     remaining_bullets2 = font.render(f"Player 2 Bullets: {player2.bullets}", True, (0, 0, 0)) if player2.bullets > 0 else font.render(f"Player 2 Bullets: {player2.bullets}", True, (255, 0, 0))
-
     screen.blit(score_text1, (10, 10))
     screen.blit(score_text2, (10, 30))
     screen.blit(remaining_bullets1, (10, 50))
     screen.blit(remaining_bullets2, (10, 70))
+    screen.blit(time_remaining, (10, 90))
+    timer_icon(timer_img, timer_X, timer_Y)
+    
 
     pygame.display.update()
     special_target1.update()
