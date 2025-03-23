@@ -6,14 +6,14 @@ passwords = ["123", "1234", "12345"]
 
 root = Tk()
 root.title("Login")
-root.geometry("800x600+300+200")  
+root.geometry("925x500+300+200")  
 root.resizable(False, False)  # This code helps to disable windows from resizing
 
-img = PhotoImage(file="kali3.png")
+img = PhotoImage(file="kali2.png")
 Label(root, image=img, bg = "white").place(x=0, y=0)
 
-frame = Frame(root,width=350, height=500, bg="white")
-frame.place(x=400, y=50)
+frame = Frame(root,width=350, height=400, bg="white")
+frame.place(x=500, y=50)
 
 heading = Label(frame, text="Login", font=("Arial", 20, "bold"), bg="white", fg="#57a1f8")
 heading.place(x=140, y=15)
@@ -57,16 +57,15 @@ def login():
             messagebox.showerror("Login", "Incorrect Password")
         elif username != usernames[i] and password == passwords[i]:
             messagebox.showerror("Login", "Incorrect Username")
-        # elif username != usernames[i] and password != passwords[i]:
-        #     messagebox.showerror("Login", "Incorrect Username and Password")
+
 
 
 login = Button(frame, text="Login", font=("Microsoft yaHei UI Light", 15, "bold"), bg="#57a1f8", fg="white", border=0, width=20, command=login)
-login.place(x=55, y=350)
+login.place(x=55, y=250)
 
-new_user_button = Label(frame, text="Don't have an account?", font=("Microsoft yaHei UI Light", 9), bg="white", fg="black").place(x=55, y=400)
+new_user_button = Label(frame, text="Don't have an account?", font=("Microsoft yaHei UI Light", 9), bg="white", fg="black").place(x=55, y=300)
 sign_up = Button (frame,width=6, text="Sign Up", fg="#57a1f8", bg="white", border=0, cursor ="hand2")
-sign_up.place(x=195, y=400)
+sign_up.place(x=195, y=300)
 
 root.mainloop()  # Start the main event loop
  
