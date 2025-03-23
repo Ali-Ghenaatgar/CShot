@@ -10,7 +10,7 @@ root.geometry("800x600+300+50")
 root.resizable(False, False)  # This code helps to disable windows from resizing
 
 img = PhotoImage(file="kali3.png")
-Label(root, image=img, bg = "white").place(x=0, y=0)
+Label(root, image=img, bg = "white").place(x=-2, y=0)
 
 frame = Frame(root,width=350, height=500, bg="white")
 frame.place(x=400, y=50)
