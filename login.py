@@ -57,8 +57,7 @@ def login():
             messagebox.showerror("Login", "Incorrect Password")
         elif username != usernames[i] and password == passwords[i]:
             messagebox.showerror("Login", "Incorrect Username")
-        # elif username != usernames[i] and password != passwords[i]:
-        #     messagebox.showerror("Login", "Incorrect Username and Password")
+
 
 
 login = Button(frame, text="Login", font=("Microsoft yaHei UI Light", 15, "bold"), bg="#57a1f8", fg="white", border=0, width=20, command=login)
