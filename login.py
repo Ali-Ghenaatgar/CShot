@@ -57,18 +57,30 @@ def login():
             messagebox.showerror("Login", "Incorrect Password")
         elif username != usernames[i] and password == passwords[i]:
             messagebox.showerror("Login", "Incorrect Username")
-        elif username != usernames[i] and password != passwords[i]:
-            messagebox.showerror("Login", "Incorrect Username and Password")
 
 
 login = Button(frame, text="Login", font=("Microsoft yaHei UI Light", 15, "bold"), bg="#57a1f8", fg="white", border=0, width=20, command=login)
 login.place(x=55, y=350)
 
+def signup():
+    root.title("Sign Up")
+    
+    heading = Label(frame, text="Sign up", font=("Arial", 20, "bold"), bg="white", fg="#57a1f8")
+    heading.place(x=130, y=15)
+    
+    sign_in = Button(frame, text="Sign in", font=("Microsoft yaHei UI Light", 15, "bold"), bg="#57a1f8", fg="white", border=0, width=20, command=login)
+    sign_in.place(x=55, y=350)
+
+    new_user_button = Label(frame, text="Already have an account?", font=("Microsoft yaHei UI Light", 9), bg="white", fg="black").place(x=50, y=400)
+    sign_up = Button (frame,width=6, text="Login", fg="#57a1f8", bg="white", border=0, cursor ="hand2")
+    sign_up.place(x=195, y=400)
+
+
 new_user_button = Label(frame, text="Don't have an account?", font=("Microsoft yaHei UI Light", 9), bg="white", fg="black").place(x=55, y=400)
-sign_up = Button (frame,width=6, text="Sign Up", fg="#57a1f8", bg="white", border=0, cursor ="hand2")
+sign_up = Button (frame,width=6, text="Sign Up", fg="#57a1f8", bg="white", border=0, cursor ="hand2", command = signup)
 sign_up.place(x=195, y=400)
+
 
 root.mainloop()  # Start the main event loop
  
 
-# command=lambda: messagebox.showinfo("Login", "Login Successful")
