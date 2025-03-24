@@ -61,19 +61,49 @@ def login():
 
 login = Button(frame, text="Login", font=("Microsoft yaHei UI Light", 15, "bold"), bg="#57a1f8", fg="white", border=0, width=20, command=login)
 login.place(x=55, y=350)
+def signin():
+    username = user.get()
+    password = passcode.get()
+    if username in usernames:
+        messagebox.showerror("Sign Up", "Username already exists")
+    else:
+        usernames.append(username)
+        passwords.append(password)
+        messagebox.showinfo("Sign Up", "Sign Up Successful")
+        user.delete(0, "end")
+        passcode.delete(0, "end")
+        user.insert(0, "Username")
+        passcode.insert(0, "Password")
 
+def back_to_login(heading_S = heading, login = login):
+    root.title("Login")
+    heading_S.destroy()
+    heading = Label(frame, text="Log in", font=("Arial", 20, "bold"), bg="white", fg="#57a1f8")
+    heading.place(x=140, y=15)
+    login = Button(frame, text="Login", font=("Microsoft yaHei UI Light", 15, "bold"), bg="#57a1f8", fg="white", border=0, width=20, command=login)
+    login.place(x=55, y=350)
+    sign_up = Button (frame,width=6, text="Sign Up", fg="#57a1f8", bg="white", border=0, cursor ="hand2", command = signup)
+    sign_up.place(x=195, y=400)
+    new_user_button = Label(frame, text="Don't have an account?", font=("Microsoft yaHei UI Light", 9), bg="white", fg="black").place(x=55, y=400)
+    user.delete(0, "end")
+    passcode.delete(0, "end")
+    user.insert(0, "Username")
+    passcode.insert(0, "Password")
+
+            
+    
 def signup():
     root.title("Sign Up")
     
-    heading = Label(frame, text="Sign up", font=("Arial", 20, "bold"), bg="white", fg="#57a1f8")
-    heading.place(x=130, y=15)
-    
-    sign_in = Button(frame, text="Sign in", font=("Microsoft yaHei UI Light", 15, "bold"), bg="#57a1f8", fg="white", border=0, width=20, command=login)
+    heading_S = Label(frame, text="Sign up", font=("Arial", 20, "bold"), bg="white", fg="#57a1f8")
+    heading_S.place(x=130, y=15)
+    login.destroy()
+    sign_in = Button(frame, text="Sign in", font=("Microsoft yaHei UI Light", 15, "bold"), bg="#57a1f8", fg="white", border=0, width=20, command=signin)
     sign_in.place(x=55, y=350)
 
     new_user_button = Label(frame, text="Already have an account?", font=("Microsoft yaHei UI Light", 9), bg="white", fg="black").place(x=50, y=400)
-    sign_up = Button (frame,width=6, text="Login", fg="#57a1f8", bg="white", border=0, cursor ="hand2")
-    sign_up.place(x=195, y=400)
+    log_in = Button (frame,width=6, text="Login", fg="#57a1f8", bg="white", border=0, cursor ="hand2", command = back_to_login)
+    log_in.place(x=195, y=400)
 
 
 new_user_button = Label(frame, text="Don't have an account?", font=("Microsoft yaHei UI Light", 9), bg="white", fg="black").place(x=55, y=400)
