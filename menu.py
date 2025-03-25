@@ -1,15 +1,63 @@
 from tkinter import *
 from tkinter import messagebox
 import re
-players = ["player1", "player2"]
-users = []
-usernames = ["admin", "user", "root"]
-passwords = ["123", "1234", "12345"]
-for i in range (len(players)):
+from sqlalchemy import Column, Integer, String, Sequence, create_engine
+from sqlalchemy.orm import sessionmaker, declarative_base
+
+engine = create_engine("sqlite:///users.db")
+Session = sessionmaker(bind=engine)
+session = Session()
+
+Base = declarative_base()
+
+class User(Base):
+    __tablename__ = "users"
+    id = Column(Integer, Sequence("user_id_seq"), primary_key=True)
+    username = Column(String(50), unique=True)
+    password = Column(String(50))
+    email = Column(String(100))
+    win = Column(Integer)
+    lose = Column(Integer)
+    total_score = Column(Integer)
+
+    def add_score(self, points=20):
+        user = session.query(User).filter_by(username=self.username).first()
+        if user:
+            user.total_score += points
+            session.commit()
+
+Base.metadata.create_all(engine)
+
+def add_user_if_not_exists(username, password, email, win, lose, total_score):
+    existing_user = session.query(User).filter_by(username=username).first()
+    if existing_user is None:
+        new_user = User(username=username, password=password, email=email, win=win, lose=lose, total_score=total_score)
+        session.add(new_user)
+        session.commit()
+        messagebox.showinfo("Sign up", "Sign up Successful")
+        root.destroy()
+    else:
+        messagebox.showerror("Sign up", "User already exists")
+
+def login_user(username, password):
+    user = session.query(User).filter_by(username=username).first()
+    if user:
+        if user.password == password:
+            messagebox.showinfo("Login", "Login Successful")
+            return True
+        else:
+            messagebox.showerror("Login", "Incorrect Password")
+            return False
+    else:
+        messagebox.showerror("Login", "User  not found")
+        return False
+#----------------------------------------------------------------
+
+for i in range (2):
     root = Tk()
     root.title("Login")
     root.geometry("800x600+300+50")  
-    root.resizable(False, False)  # This code helps to disable roots from resizing
+    root.resizable(False, False)
 
     img = PhotoImage(file="kali3.png")
     Label(root, image=img, bg = "white").place(x=-2, y=0)
@@ -55,18 +103,8 @@ for i in range (len(players)):
     def login():
         username = user.get()
         password = passcode.get()
-        if username not in users:
-            for i in range(len(usernames)):
-                if username == usernames[i] and password == passwords[i]:
-                    messagebox.showinfo("Login", "Login Successful")
-                    users.append(username)
-                    root.destroy()
-                elif username == usernames[i] and password != passwords[i]:
-                    messagebox.showerror("Login", "Incorrect Password")
-                elif username != usernames[i] and password == passwords[i]:
-                    messagebox.showerror("Login", "Incorrect Username")
-        else:
-            messagebox.showerror("Login", "User already logged in")
+        if login_user(username, password):
+            root.destroy()
 
 
     login = Button(frame, text="Login", font=("Microsoft yaHei UI Light", 15, "bold"), bg="#57a1f8", fg="white", border=0, width=20, command=login)
@@ -81,7 +119,7 @@ for i in range (len(players)):
         window = Toplevel(root)
         window.title("Sign Up")
         window.geometry("800x600+300+50")  
-        window.resizable(False, False)  # This code helps to disable windows from resizing
+        window.resizable(False, False)
 
         img = PhotoImage(file="kali3.png")
         Label(window, image=img, bg = "white").place(x=-2, y=0)
@@ -113,10 +151,15 @@ for i in range (len(players)):
         passcode.insert(0, "Password")  
         Frame(frame, width=270, height=2, bg="black").place(x=30, y=185)
 
-        confirm_passcode = Entry(frame, font=("Microsoft yaHei UI Light", 15), bg="white", fg="black", border=0, width=20)
-        confirm_passcode.place(x=30, y=210)
-        confirm_passcode.insert(0, "Confirm Password")
-        Frame(frame, width=270, height=2, bg="black").place(x=30, y=240)
+        # confirm_passcode = Entry(frame, font=("Microsoft yaHei UI Light", 15), bg="white", fg="black", border=0, width=20)
+        # confirm_passcode.place(x=30, y=210)
+        # confirm_passcode.insert(0, "Confirm Password")
+        # Frame(frame, width=270, height=2, bg="black").place(x=30, y=240)
+
+        email = Entry(frame, font=("Microsoft yaHei UI Light", 15), bg="white", fg="black", border=0, width=20)
+        email.place(x=30, y=265)
+        email.insert(0, "Email")
+        Frame(frame, width=270, height=2, bg="black").place(x=30, y=295)
 
         # if passcode.get() != confirm_passcode.get() or (passcode.get() != "Password" or confirm_passcode.get() != "Confirm Password"):
         #     messagebox.showerror("Sign up", "Passwords do not match")
@@ -125,10 +168,7 @@ for i in range (len(players)):
             if re.match(regex, email):
                 return True
             return False
-        get_email = Entry(frame, font=("Microsoft yaHei UI Light", 15), bg="white", fg="black", border=0, width=20)
-        get_email.place(x=30, y=265)
-        get_email.insert(0, "Email")
-        Frame(frame, width=270, height=2, bg="black").place(x=30, y=295)
+        
         def on_enter(e):
             if user.get() == "Email":
                 user.delete(0, "end")
@@ -142,24 +182,26 @@ for i in range (len(players)):
 
         def on_leave(e):
             if passcode.get() == "":
-                passcode.insert(0, "password")  
+                passcode.insert(0, "Password")  
                 
         passcode.bind("<FocusIn>", on_enter)
         passcode.bind("<FocusOut>", on_leave)
     
         def signup():
+            global username,password
             username = user.get()
             password = passcode.get()
-            if username not in usernames:
-                messagebox.showinfo("Sign up", "Sign up Successful")
-                user.delete(0, "end") 
-                passcode.delete(0, "end") 
-                user.insert(0, "Username") 
-                passcode.insert(0, "Password")
-                window.destroy()
-            else:
-                messagebox.showerror("Sign up", "Username already exists.")
-                
+            
+            if validate_email(email.get()) and (username != "Username" or username != "") and (password != "Password" or password != ""):
+                add_user_if_not_exists(username,password,email.get(),win=0,lose=0,total_score=0)
+            else:  
+                if username == "Username":
+                    messagebox.showerror("Sign up", "Enter your username")
+                elif password == "Password":
+                    messagebox.showerror("Sign up", "Enter your password")
+                elif not validate_email(email.get()):
+                    messagebox.showerror("Sign up", "Enter a valid email address")
+
 
         sign_up = Button(frame, text="Sign up", font=("Microsoft yaHei UI Light", 15, "bold"), bg="#57a1f8", fg="white", border=0, width=20, command=signup)
         sign_up.place(x=55, y=350)
@@ -180,4 +222,4 @@ for i in range (len(players)):
     sign_up.place(x=185, y=400)
 
 
-    root.mainloop()  # Start the main event loop
+    root.mainloop()
