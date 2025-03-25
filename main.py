@@ -1,6 +1,8 @@
 import pygame
 import random
 import math
+from tkinter import *
+from tkinter import messagebox
 
 class Player():
     def __init__(self, x, y, circles, last_shot, sound, score=0, bullets=10, shotgun_bullets=0):
@@ -174,97 +176,125 @@ xchange2, ychange2 = 0, 0
 pygame.init()
 font = pygame.font.Font(None, 20)
 start_time = pygame.time.get_ticks()
-game_duration = 100000
+game_duration = 10000
 
 # Main game loop
-running = True
-while running:
-    screen.fill((255, 255, 255))
-    player(player1)
-    player(player2)
-    # Calculate remaining time
-    elapsed_time = pygame.time.get_ticks() - start_time
-    remaining_time = max(0, (game_duration - elapsed_time) // 1000)
+# running = True
+# while running:
+#     screen.fill((255, 255, 255))
+#     player(player1)
+#     player(player2)
+#     # Calculate remaining time
+#     elapsed_time = pygame.time.get_ticks() - start_time
+#     remaining_time = max(0, (game_duration - elapsed_time) // 1000)
+#     if remaining_time == 0:
+#         running = False
+#     for event in pygame.event.get():
+#         if event.type == pygame.QUIT:
+#             running = False
+#         if event.type == pygame.KEYDOWN:
+#             # Player 1 movement
+#             if event.key == pygame.K_w:
+#                 ychange1 = -0.2
+#             if event.key == pygame.K_s:
+#                 ychange1 = 0.2
+#             if event.key == pygame.K_a:
+#                 xchange1 = -0.2
+#             if event.key == pygame.K_d:
+#                 xchange1 = 0.2
+#             # Player 2 movement
+#             if event.key == pygame.K_UP:
+#                 ychange2 = -0.2
+#             if event.key == pygame.K_DOWN:
+#                 ychange2 = 0.2
+#             if event.key == pygame.K_LEFT:
+#                 xchange2 = -0.2
+#             if event.key == pygame.K_RIGHT:
+#                 xchange2 = 0.2
+#             # Shooting controls
+#             if event.key == pygame.K_TAB:
+#                 player1.shoot()
+#             if event.key == pygame.K_RETURN:
+#                 player2.shoot()
 
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            running = False
-        if event.type == pygame.KEYDOWN:
-            # Player 1 movement
-            if event.key == pygame.K_w:
-                ychange1 = -0.2
-            if event.key == pygame.K_s:
-                ychange1 = 0.2
-            if event.key == pygame.K_a:
-                xchange1 = -0.2
-            if event.key == pygame.K_d:
-                xchange1 = 0.2
-            # Player 2 movement
-            if event.key == pygame.K_UP:
-                ychange2 = -0.2
-            if event.key == pygame.K_DOWN:
-                ychange2 = 0.2
-            if event.key == pygame.K_LEFT:
-                xchange2 = -0.2
-            if event.key == pygame.K_RIGHT:
-                xchange2 = 0.2
-            # Shooting controls
-            if event.key == pygame.K_TAB:
-                player1.shoot()
-            if event.key == pygame.K_RETURN:
-                player2.shoot()
-
-        if event.type == pygame.KEYUP:
-            # Stop movement
-            if event.key in [pygame.K_a, pygame.K_d]:
-                xchange1 = 0
-            if event.key in [pygame.K_w, pygame.K_s]:
-                ychange1 = 0
-            if event.key in [pygame.K_LEFT, pygame.K_RIGHT]:
-                xchange2 = 0
-            if event.key in [pygame.K_UP, pygame.K_DOWN]:
-                ychange2 = 0
+#         if event.type == pygame.KEYUP:
+#             # Stop movement
+#             if event.key in [pygame.K_a, pygame.K_d]:
+#                 xchange1 = 0
+#             if event.key in [pygame.K_w, pygame.K_s]:
+#                 ychange1 = 0
+#             if event.key in [pygame.K_LEFT, pygame.K_RIGHT]:
+#                 xchange2 = 0
+#             if event.key in [pygame.K_UP, pygame.K_DOWN]:
+#                 ychange2 = 0
         
-    # Update player positions
-    player1.x , player1.y = max(0, min(player1.x + xchange1, 775)) , max(0, min(player1.y + ychange1, 575))
-    player2.x , player2.y = max(0, min(player2.x + xchange2, 775)) , max(0, min(player2.y + ychange2, 575))
+#     # Update player positions
+#     player1.x , player1.y = max(0, min(player1.x + xchange1, 775)) , max(0, min(player1.y + ychange1, 575))
+#     player2.x , player2.y = max(0, min(player2.x + xchange2, 775)) , max(0, min(player2.y + ychange2, 575))
 
-    # Draw targets and bullets
-    for target_obj in [target1, target2, target3, special_target1, special_target2, special_target3]:
-        target_obj.render(screen)
+#     # Draw targets and bullets
+#     for target_obj in [target1, target2, target3, special_target1, special_target2, special_target3]:
+#         target_obj.render(screen)
 
-    for circle in player1.circles:
-        # Draw player 1's bullets
-        if type(circle) == tuple:
-            pygame.draw.circle(screen, (255, 0, 0), circle, 2)
-        else:
-            for i in circle:
-                pygame.draw.circle(screen, (255, 0, 0), i, 3)
-    for circle in player2.circles:
-        # Draw player 2's bullets
-        if type(circle) == tuple:
-            pygame.draw.circle(screen, (0, 0, 255), circle, 2)
-        else:
-            for j in circle:
-                pygame.draw.circle(screen, (0, 0, 255), j, 3)
+#     for circle in player1.circles:
+#         # Draw player 1's bullets
+#         if type(circle) == tuple:
+#             pygame.draw.circle(screen, (255, 0, 0), circle, 2)
+#         else:
+#             for i in circle:
+#                 pygame.draw.circle(screen, (255, 0, 0), i, 3)
+#     for circle in player2.circles:
+#         # Draw player 2's bullets
+#         if type(circle) == tuple:
+#             pygame.draw.circle(screen, (0, 0, 255), circle, 2)
+#         else:
+#             for j in circle:
+#                 pygame.draw.circle(screen, (0, 0, 255), j, 3)
 
-    # Display scores and info
-    score_text1 = font.render(f"Player 1: {player1.score}", True, (0, 0, 0))
-    score_text2 = font.render(f"Player 2: {player2.score}", True, (0, 0, 0))
-    remaining_bullets1 = font.render(f"Player 1 Bullets: {player1.bullets}", True, (0, 0, 0)) if player1.bullets > 0 else font.render(f"Player 1 Bullets: {player1.bullets}", True, (255, 0, 0))
-    remaining_bullets2 = font.render(f"Player 2 Bullets: {player2.bullets}", True, (0, 0, 0)) if player2.bullets > 0 else font.render(f"Player 2 Bullets: {player2.bullets}", True, (255, 0, 0))
-    time_left = font.render(f"Time Left: {remaining_time}s", True, (0, 0, 0))
+#     # Display scores and info
+#     score_text1 = font.render(f"Player 1: {player1.score}", True, (0, 0, 0))
+#     score_text2 = font.render(f"Player 2: {player2.score}", True, (0, 0, 0))
+#     remaining_bullets1 = font.render(f"Player 1 Bullets: {player1.bullets}", True, (0, 0, 0)) if player1.bullets > 0 else font.render(f"Player 1 Bullets: {player1.bullets}", True, (255, 0, 0))
+#     remaining_bullets2 = font.render(f"Player 2 Bullets: {player2.bullets}", True, (0, 0, 0)) if player2.bullets > 0 else font.render(f"Player 2 Bullets: {player2.bullets}", True, (255, 0, 0))
+#     time_left = font.render(f"Time Left: {remaining_time}s", True, (0, 0, 0))
 
-    screen.blit(score_text1, (10, 10))
-    screen.blit(score_text2, (10, 30))
-    screen.blit(remaining_bullets1, (10, 50))
-    screen.blit(remaining_bullets2, (10, 70))
-    screen.blit(time_left, (10, 90))
+#     screen.blit(score_text1, (10, 10))
+#     screen.blit(score_text2, (10, 30))
+#     screen.blit(remaining_bullets1, (10, 50))
+#     screen.blit(remaining_bullets2, (10, 70))
+#     screen.blit(time_left, (10, 90))
 
-    pygame.display.update()  # Update screen
+#     pygame.display.update()  # Update screen
     
-    # Update special targets
-    for special_target in [special_target1, special_target2, special_target3]:
-        special_target.update()
+#     # Update special targets
+#     for special_target in [special_target1, special_target2, special_target3]:
+#         special_target.update()
 
-pygame.quit()  # Exit game
+# pygame.quit()  # Exit game
+
+    
+game_over = Tk()
+game_over.title("Game Over")
+game_over.geometry("800x600+300+50")
+game_over.resizable(False, False)
+background = PhotoImage(file="kali3.png")
+Label(game_over, image=background, bg = "white").place(x=-2, y=0)
+frame = Frame(game_over,width=350, height=500, bg="white")
+frame.place(x=400, y=50)
+heading = Label(frame, text="Game Over", font=("Arial", 30, "bold"), bg="white", fg="black")
+heading.place(x=70, y=45)
+score1 = Label(frame, text=f"Player 1 Score: {player1.score}", font=("Arial", 20, "bold"), bg="white", fg="red")
+score1.place(x=60, y=300)
+score2 = Label(frame, text=f"Player 2 Score: {player2.score}", font=("Arial", 20, "bold"), bg="white", fg="blue")
+score2.place(x=60, y=350)
+if player1.score > player2.score:
+    winner = Label(frame, text="Player 1 Wins!", font=("Arial", 25, "bold"), bg="white", fg="red")
+    winner.place(x=60, y=150)
+elif player1.score < player2.score:
+    winner = Label(frame, text="Player 2 Wins!", font=("Arial", 25, "bold"), bg="white", fg="blue")
+    winner.place(x=60, y=150)
+else:
+    winner = Label(frame, text="It's a tie!", font=("Arial", 25, "bold"), bg="white", fg="gray")
+    winner.place(x=105, y=150)
+game_over.mainloop()  
+
