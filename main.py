@@ -75,6 +75,14 @@ for i in range (2):
     user = Entry(frame, font=("Microsoft yaHei UI Light", 15), bg="white", fg="black", border=0, width=20)
     user.place(x=30, y=100)
     user.insert(0, "Username")
+
+    Frame(frame, width=270, height=2, bg="black").place(x=30, y=130)
+
+    passcode = Entry(frame, font=("Microsoft yaHei UI Light", 15), bg="white", fg="black", border=0, width=20)
+    passcode.place(x=30, y=170)
+    passcode.insert(0, "Password")  
+    Frame(frame, width=270, height=2, bg="black").place(x=30, y=200)
+
     def on_enter(e):
         if user.get()== "Username":
             user.delete(0, "end")
@@ -86,19 +94,13 @@ for i in range (2):
     user.bind("<FocusIn>", on_enter)
     user.bind("<FocusOut>", on_leave)
 
-    Frame(frame, width=270, height=2, bg="black").place(x=30, y=130)
-
-    passcode = Entry(frame, font=("Microsoft yaHei UI Light", 15), bg="white", fg="black", border=0, width=20)
-    passcode.place(x=30, y=170)
-    passcode.insert(0, "Password")  
-    Frame(frame, width=270, height=2, bg="black").place(x=30, y=200)
     def on_enter(e):
         if passcode.get() == "Password":
             passcode.delete(0, "end")
 
     def on_leave(e):
         if passcode.get() == "":
-            passcode.insert(0, "password")  
+            passcode.insert(0, "Password")  
             
     passcode.bind("<FocusIn>", on_enter)
     passcode.bind("<FocusOut>", on_leave)
@@ -107,9 +109,12 @@ for i in range (2):
     def login():
         username = user.get()
         password = passcode.get()
-        if login_user(username, password):
-            players.append(username)
-            root.destroy()
+        if username not in players:
+            if login_user(username, password):
+                players.append(username)
+                root.destroy()
+        else:
+            messagebox.showerror("Login", "User already logged in")
 
 
     login = Button(frame, text="Login", font=("Microsoft yaHei UI Light", 15, "bold"), bg="#57a1f8", fg="white", border=0, width=20, command=login)
@@ -138,6 +143,31 @@ for i in range (2):
         user = Entry(frame, font=("Microsoft yaHei UI Light", 15), bg="white", fg="black", border=0, width=20)
         user.place(x=30, y=100)
         user.insert(0, "Username")
+
+
+        Frame(frame, width=270, height=2, bg="black").place(x=30, y=130)
+
+        passcode = Entry(frame, font=("Microsoft yaHei UI Light", 15), bg="white", fg="black", border=0, width=20)
+        passcode.place(x=30, y=155)
+        passcode.insert(0, "Password")  
+        Frame(frame, width=270, height=2, bg="black").place(x=30, y=185)
+
+        confirm_passcode = Entry(frame, font=("Microsoft yaHei UI Light", 15), bg="white", fg="black", border=0, width=20)
+        confirm_passcode.place(x=30, y=210)
+        confirm_passcode.insert(0, "Confirm Password")
+        Frame(frame, width=270, height=2, bg="black").place(x=30, y=240)
+
+        email = Entry(frame, font=("Microsoft yaHei UI Light", 15), bg="white", fg="black", border=0, width=20)
+        email.place(x=30, y=265)
+        email.insert(0, "Email")
+        Frame(frame, width=270, height=2, bg="black").place(x=30, y=295)
+
+        def validate_email(email):
+            regex = r'[\w._%+-]+@[\w.-]+\.[a-zA-Z]{2,4}'
+            if re.match(regex, email):
+                return True
+            return False
+
         def on_enter(e):
             if user.get() == "Username":
                 user.delete(0, "end")
@@ -149,41 +179,6 @@ for i in range (2):
         user.bind("<FocusIn>", on_enter)
         user.bind("<FocusOut>", on_leave)
 
-        Frame(frame, width=270, height=2, bg="black").place(x=30, y=130)
-
-        passcode = Entry(frame, font=("Microsoft yaHei UI Light", 15), bg="white", fg="black", border=0, width=20)
-        passcode.place(x=30, y=155)
-        passcode.insert(0, "Password")  
-        Frame(frame, width=270, height=2, bg="black").place(x=30, y=185)
-
-        # confirm_passcode = Entry(frame, font=("Microsoft yaHei UI Light", 15), bg="white", fg="black", border=0, width=20)
-        # confirm_passcode.place(x=30, y=210)
-        # confirm_passcode.insert(0, "Confirm Password")
-        # Frame(frame, width=270, height=2, bg="black").place(x=30, y=240)
-
-        email = Entry(frame, font=("Microsoft yaHei UI Light", 15), bg="white", fg="black", border=0, width=20)
-        email.place(x=30, y=265)
-        email.insert(0, "Email")
-        Frame(frame, width=270, height=2, bg="black").place(x=30, y=295)
-
-        # if passcode.get() != confirm_passcode.get() or (passcode.get() != "Password" or confirm_passcode.get() != "Confirm Password"):
-        #     messagebox.showerror("Sign up", "Passwords do not match")
-        def validate_email(email):
-            regex = r'[\w._%+-]+@[\w.-]+\.[a-zA-Z]{2,4}'
-            if re.match(regex, email):
-                return True
-            return False
-        
-        def on_enter_e(e):
-            if email.get() == "Email":
-                email.delete(0, "end")
-
-        def on_leave_e(e):
-            if email.get() == "":
-                email.insert(0, "Email")
-        email.bind("<FocusIn>", on_enter_e)
-        email.bind("<FocusOut>", on_leave_e)
-
         def on_enter(e):
             if passcode.get() == "Password" :
                 passcode.delete(0, "end")
@@ -192,16 +187,37 @@ for i in range (2):
             if passcode.get() == "":
                 passcode.insert(0, "Password")
           
-                
         passcode.bind("<FocusIn>", on_enter)
         passcode.bind("<FocusOut>", on_leave)
+
+        def on_enter(e):
+            if email.get() == "Email":
+                email.delete(0, "end")
+
+        def on_leave(e):
+            if email.get() == "":
+                email.insert(0, "Email")
+
+        email.bind("<FocusIn>", on_enter)
+        email.bind("<FocusOut>", on_leave)
+
+        def on_enter(e):
+            if confirm_passcode.get() == "Confirm Password":
+                confirm_passcode.delete(0, "end")
+
+        def on_leave(e):
+            if confirm_passcode.get() == "":
+                confirm_passcode.insert(0, "Confirm Password")
+        
+        confirm_passcode.bind("<FocusIn>", on_enter)
+        confirm_passcode.bind("<FocusOut>", on_leave)
     
         def signup():
             global username,password
             username = user.get()
             password = passcode.get()
             
-            if validate_email(email.get()) and (username != "Username" or username != "") and (password != "Password" or password != ""):
+            if validate_email(email.get()) and (username != "Username" or username != "") and (password != "Password" or password != "") and password == confirm_passcode.get():
                 add_user_if_not_exists(username,password,email.get(),win=0,lose=0,total_score=0)
                 players.append(username)
             else:  
@@ -209,6 +225,8 @@ for i in range (2):
                     messagebox.showerror("Sign up", "Enter your username")
                 elif password == "Password":
                     messagebox.showerror("Sign up", "Enter your password")
+                elif password != confirm_passcode.get():
+                    messagebox.showerror("Sign up", "Passwords do not match")
                 elif not validate_email(email.get()):
                     messagebox.showerror("Sign up", "Enter a valid email address")
 
@@ -407,7 +425,7 @@ xchange2, ychange2 = 0, 0
 pygame.init()
 font = pygame.font.Font(None, 20)
 start_time = pygame.time.get_ticks()
-game_duration = 10000
+game_duration = 100000
 
 
 # Main game loop
@@ -536,6 +554,7 @@ else:
     winner.place(x=105, y=150)
     session.execute(update(User).where(User.username == players[0]).values(total_score=User.total_score + player1.score))
     session.execute(update(User).where(User.username == players[1]).values(total_score=User.total_score + player2.score))
+    session.commit()
 
 top_users = session.query(User.username).order_by(User.win.desc()).limit(3).all()
 top_usernames = [username[0] for username in top_users]
@@ -560,18 +579,19 @@ def show_leaderboard():
     frame.place(x=400, y=50)
     heading = Label(frame, text="Leaderboard", font=("Arial", 30, "bold"), bg="white", fg="black")
     heading.place(x=70, y=35)
-    first_wins = session.query(User.win).filter(User.username == top_usernames[0]).first()
-    
-    first = Label(frame, text=f"1. {top_usernames[0]}: {first_wins} wins", font=("Arial", 15, "bold"), bg="white", fg="#ffd700")
+
+    first_wins = session.query(User.win).filter(User.username == top_usernames[0]).first()    
+    first = Label(frame, text=f"1. {top_usernames[0]}: {first_wins[0]} wins", font=("Arial", 15, "bold"), bg="white", fg="#ffd700")
     first.place(x=60, y=150)
+
     second_wins = session.query(User.win).filter(User.username == top_usernames[1]).first()
-
-    second = Label(frame, text=f"2. {top_usernames[1]}: {second_wins} wins", font=("Arial", 15, "bold"), bg="white", fg="#c0c0c0")
+    second = Label(frame, text=f"2. {top_usernames[1]}: {second_wins[0]} wins", font=("Arial", 15, "bold"), bg="white", fg="#c0c0c0")
     second.place(x=60, y=200)
-    third_wins = session.query(User.win).filter(User.username == top_usernames[2]).first()
 
-    third = Label(frame, text=f"3. {top_usernames[2]}: {third_wins} wins", font=("Arial", 15, "bold"), bg="white", fg="#cd7f32")
+    third_wins = session.query(User.win).filter(User.username == top_usernames[2]).first()
+    third = Label(frame, text=f"3. {top_usernames[2]}: {third_wins[0]} wins", font=("Arial", 15, "bold"), bg="white", fg="#cd7f32")
     third.place(x=60, y=250)
+
     leaderboard.mainloop()
 
 leader_board = Button(frame, text="Leaderboard", font=("Arial", 20, "bold"), bg="black", fg="white", cursor="hand2", command = show_leaderboard)
