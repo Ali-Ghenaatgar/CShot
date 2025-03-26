@@ -505,8 +505,8 @@ while running:
     
     score_text1 = font.render(f"{players[0]} : {player1.score}", True, (0, 0, 0))
     score_text2 = font.render(f"{players[1]} : {player2.score}", True, (0, 0, 0))
-    remaining_bullets1 = font.render(f"{players[0]}'s Bullets: {player1.bullets}", True, (0, 0, 0)) if player1.bullets > 0 else font.render(f"Player 1 Bullets: {player1.bullets}", True, (255, 0, 0))
-    remaining_bullets2 = font.render(f"{players[1]}'s Bullets: {player2.bullets}", True, (0, 0, 0)) if player2.bullets > 0 else font.render(f"Player 2 Bullets: {player2.bullets}", True, (255, 0, 0))
+    remaining_bullets1 = font.render(f"{players[0]}'s Bullets: {player1.bullets}", True, (0, 0, 0)) if player1.bullets > 0 else font.render(f"{players[0]}'s Bullets: {player1.bullets}", True, (255, 0, 0))
+    remaining_bullets2 = font.render(f"{players[1]}'s Bullets: {player2.bullets}", True, (0, 0, 0)) if player2.bullets > 0 else font.render(f"{players[1]}'s Bullets: {player2.bullets}", True, (255, 0, 0))
     time_left = font.render(f"Time Left: {remaining_time}s", True, (0, 0, 0))
 
     screen.blit(score_text1, (10, 10))
